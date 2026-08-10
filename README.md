@@ -3,7 +3,7 @@ Redesigned a messy 23-table Power BI import proper star schema — surrogate key
 
 ### 1) The Problem
 I imported 23-25 tables from source system directly into Power BI. The result was a flat, unstructured semantic model with 23 tables and 12 relationships — no clear separation between facts and dimensions, duplicate tables, and dead-end columns.
-![Data Model Before](https://raw.githubusercontent.com/ompatil05/Data_Model_Project/main/images/01_model_before.png)
+
 <h2 align="center">Data Model: Before vs After</h2>
 
 <table align="center">
@@ -13,10 +13,10 @@ I imported 23-25 tables from source system directly into Power BI. The result wa
   </tr>
   <tr>
     <td align="center">
-      <img src="images/01_model_before.png" width="450">
+      <img src="images/01_model_before.png" width="450" height="800">
     </td>
     <td align="center">
-      <img src="images/02_model_aftter.png" width="450">
+      <img src="images/02_model_aftter.png" width="450" height="800">
     </td>
   </tr>
 </table>
