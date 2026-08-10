@@ -15,7 +15,7 @@ iii) **<ins>Redundant tables covering the same entity</ins>**: Address, cities, 
 
 iv) **<ins>No surrogate keys</ins>**: Joins relied on inconsistent natural keys across tables
 
-v) **<ins>No fact/dimension distinction</ins>** :Transactional data (orders, payments, campaigns) and descriptive data     (customers, products, geography) lived at the same flat level
+v) **<ins>No fact/dimension distinction</ins>** :Transactional data (orders, payments, campaigns) and descriptive data     (customers, products, geography) lived at the       same flat level
 
 
 ## Phase 1 — Explore Before You Build
@@ -94,5 +94,29 @@ Two fact patterns worth calling out:
 3. **Centralized measures** into a dedicated `_measure` table, kept separate from any physical table
 4. **Added row-level security** — connected the `security` table (`region`, `user_email`) into the model. Not forced onto every fact: over-securing breaks the grain of facts that don't carry a region themselves.
 5. **Final validation** — tested RLS as an actual user would see it (a "region = North America" user gets a different Total Sales than a "region = Europe" user), rather than trusting the relationship by design.
+
+## Result
+
+| Metric | Before | After |
+|---|---|---|
+| Duplicate fact tables split by year | `ORDERS_2025` / `ORDERS_2026` | Merged into one grain-consistent fact table |
+| Junk columns from raw import | `Column1`/`Column2` placeholders in 5+ tables | Renamed to real business meaning, or dropped |
+| Naming convention | Mixed `Title Case` / `ALL_CAPS` / `snake_case` | Consistent `fact_`/`dim_` snake_case |
+| Relationships | Bidirectional / many-to-many, several inactive | Single-direction, 1-to-many, dimension → fact |
+| Measures | Scattered across physical tables | Centralized in one `_measure` table |
+| Security | `security` table disconnected | Wired into the model, tested as an end user would see it |
+
+---
+
+## Features Implemented
+
+- **Star schema design** — facts at the center, dimensions surrounding, no fact-to-fact joins
+- **Shared (conformed) dimensions** — `dim_customers`, `dim_products`, `dim_geo`, `dim_date`, `dim_campaign` reused across every fact table instead of duplicated per subject area
+- **Surrogate + natural keys** — `_key` for model-generated keys, `_id` for source-system keys, kept distinct
+- **Factless fact** — `fact_promotion_coverage`, tracking coverage/eligibility with no numeric measures
+- **Accumulating snapshot fact** — `fact_order_process`, one row per order holding every fulfillment milestone date
+- **Centralized measures table** — all DAX measures in a dedicated `_measure` table, separate from physical data
+- **Row-level security (RLS)** — region-based access via the `security` table, tested from the end-user's perspective
+- **Time intelligence-ready** — single `dim_date` table supporting YTD, MoM, and period-over-period calculations
 
 
