@@ -13,10 +13,10 @@ I imported 23-25 tables from source system directly into Power BI. The result wa
   </tr>
   <tr>
     <td align="center">
-      <img src="images/01_model_before.png" width="450" height="800">
+      <img src="images/01_model_before.png" height="700">
     </td>
     <td align="center">
-      <img src="images/02_model_aftter.png" width="450" height="800">
+      <img src="images/02_model_aftter.png" height="700">
     </td>
   </tr>
 </table>
