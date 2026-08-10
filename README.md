@@ -19,27 +19,24 @@ v) **<ins>No fact/dimension distinction</ins>** :Transactional data (orders, pay
 
 ## Phase 1 — Explore Before You Build
 
-Before touching a single table, I worked through three questions using the raw import itself.
+Before touching any table, I worked through three questions against the raw import.
 
 **1. Analyze the business**
-
-This is retail/e-commerce order data — customers placing orders, orders getting shipped and invoiced, campaigns driving sales, and payments coming in. The reporting needs to answer questions like: what are we selling, to whom, through which channel, and is a campaign actually driving revenue. That's the lens I used to decide what mattered and what didn't.
+This is retail/e-commerce order data — customers, orders, shipments, invoices, payments, and campaigns. Reporting needs to answer: what's selling, to whom, through which channel, and which campaigns actually drive revenue.
 
 **2. Explore the process**
+Traced the real business flow instead of trusting table names:
+- Order lifecycle: order → shipped → invoiced → paid
+- Sales flow: customer → order → order lines → product
+- Marketing flow: campaign → promotion → sale
 
-Traced the real sequence behind the tables instead of trusting how they were named:
-- **Order lifecycle:** order placed → shipped (`shipments`) → invoiced (`INVOICES`) → paid (`payments`)
-- **Sales flow:** customer (`CUST_MASTER`, `customer_contacts`) → order (`ORDERS_2025`/`ORDERS_2026`) → order lines (`order_line_items`, `invoice_lines`) → product (`products`, `subcategories`)
-- **Marketing flow:** campaign (`CAMPAIGN_LOG`, `campaign_skus`) → promotion applied to a product → sale
-
-This is what told me `fact_order_process` needed to be an accumulating snapshot (one row per order, a column per milestone date) instead of five separate fact tables joined on order ID.
+This is what led to designing `fact_order_process` as an accumulating snapshot (one row per order, one column per milestone) instead of five separate fact tables.
 
 **3. Understand the data**
+Reviewed each raw table before deciding anything:
+- `ORDERS_2025` / `ORDERS_2026` — identical structure, split by year for no real reason
+- `security`, `regions`, `cities`, `subcategories`, `campaign_skus` — generic `Column1`/`Column2` headers requiring tracing back to source
+- `Address`, `cities`, `regions` — three tables describing one entity: geography
+- `Sheet1` — unconnected leftover from the original import
 
-Opened the raw tables row by row before deciding anything:
-- `ORDERS_2025` and `ORDERS_2026` had identical structure — same columns, just split by year for no reason tied to the business
-- `security`, `regions`, `cities`, `subcategories`, and `campaign_skus` all had generic `Column1`/`Column2` headers — had to trace each back to source to find out `security.Column1` was actually `region` and `Column2` was `user_email`
-- `Address`, `cities`, and `regions` were three separate tables all describing the same thing: geography
-- `Sheet1` had no relationships to anything else — a leftover from the original import, not real data
-
-That inventory is what made Phase 2 (building the dimensions) possible — I already knew which tables belonged together before I started merging anything.
+This inventory is what made the dimension design in Phase 2 possible.
