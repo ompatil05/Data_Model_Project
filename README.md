@@ -9,10 +9,10 @@ I imported 23-25 tables from source system directly into Power BI. The result wa
 i) **<ins>Duplicate tables split by year</ins>**, instead of one table with a date column. 
   example: ORDERS_2025, ORDERS_2026
 
-ii) **Inconsistent naming conventions**:Mix of Title Case (INVOICES), ALL_CAPS (CUST_MASTER), and snake_case (order_line_items)
+ii) **<ins>Inconsistent naming conventions</ins>**:Mix of Title Case (INVOICES), ALL_CAPS (CUST_MASTER), and snake_case (order_line_items)
 
-iii) **Redundant tables covering the same entity**: Address, cities, regions all describing geography separately
+iii) **<ins>Redundant tables covering the same entity</ins>**: Address, cities, regions all describing geography separately
 
-iv) **No surrogate keys**: Joins relied on inconsistent natural keys across tables
+iv) **<ins>No surrogate keys</ins>**: Joins relied on inconsistent natural keys across tables
 
-v) **No fact/dimension distinction** :Transactional data (orders, payments, campaigns) and descriptive data (customers, products, geography) lived at the same flat level
+v) **<ins>No fact/dimension distinction</ins>** :Transactional data (orders, payments, campaigns) and descriptive data (customers, products, geography) lived at the same flat level
