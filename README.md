@@ -3,4 +3,4 @@ Redesigned a messy 23-table Power BI import proper star schema — surrogate key
 
 ### The Problem
 I imported 23-25 tables from source system directly into Power BI. The result was a flat, unstructured semantic model with 23 tables and 12 relationships — no clear separation between facts and dimensions, duplicate tables, and dead-end columns.
-![Before Data Model](images/before.png)
+![Before Data Model](images/01_before.png)
