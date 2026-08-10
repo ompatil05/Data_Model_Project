@@ -6,7 +6,7 @@ I imported 23-25 tables from source system directly into Power BI. The result wa
 ![Data Model Before](https://raw.githubusercontent.com/ompatil05/Data_Model_Project/main/images/01_model_before.png)
 
 ### 2) Issues in the Model
-i) **Duplicate tables split by year**, instead of one table with a date column. 
+i) **<ins>Duplicate tables split by year</ins>**, instead of one table with a date column. 
   example: ORDERS_2025, ORDERS_2026
 
 ii) **Inconsistent naming conventions**:Mix of Title Case (INVOICES), ALL_CAPS (CUST_MASTER), and snake_case (order_line_items)
